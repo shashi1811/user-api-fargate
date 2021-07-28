@@ -19,7 +19,7 @@ pipeline {
     environment {
         POM_VERSION = getVersion()
         JAR_NAME = getJarName()
-        AWS_ECR_URL = '311778411820.dkr.ecr.ap-south-1.amazonaws.com/shashi-test'
+        AWS_ECR_URL = 'htps://311778411820.dkr.ecr.ap-south-1.amazonaws.com/shashi-test'
         AWS_ECR_REGION = 'ap-south-1'
         AWS_ECS_SERVICE = 'ch-dev-user-api-service'
         AWS_ECS_TASK_DEFINITION = 'ch-dev-user-api-taskdefinition'
