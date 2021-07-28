@@ -43,9 +43,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                //withCredentials([string(credentialsId: 'AWS_REPOSITORY_URL_SECRET', variable: 'AWS_ECR_URL')]) {
+                withCredentials([string(credentialsId: 'AWS_REPOSITORY_URL_SECRET', variable: 'AWS_ECR_URL')]) {
                     script {
-                        sh "aws ecr get-login --no-include-email --region ${AWS_ECR_REGION} | sh"
+               
                         docker.build("${AWS_ECR_URL}:${POM_VERSION}", "--build-arg JAR_FILE=${JAR_NAME} .")
                     }
                 }
@@ -54,10 +54,10 @@ pipeline {
 
         stage('Push image to ECR') {
             steps {
-                //withCredentials([string(credentialsId: 'AWS_REPOSITORY_URL_SECRET', variable: 'AWS_ECR_URL')]) {
+                withCredentials([string(credentialsId: 'AWS_REPOSITORY_URL_SECRET', variable: 'AWS_ECR_URL')]) {
                     withAWS(region: "${AWS_ECR_REGION}", credentials: 'personal-aws-ecr') {
                         script {
-                            sh "aws ecr get-login --no-include-email --region ${AWS_ECR_REGION} | sh"
+                            
                             def login = ecrLogin()
                             sh('#!/bin/sh -e\n' + "${login}") // hide logging
                             docker.image("${AWS_ECR_URL}:${POM_VERSION}").push()
